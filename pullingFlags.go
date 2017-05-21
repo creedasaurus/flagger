@@ -30,6 +30,6 @@ var flags = [...]string{"aa", "ac", "ae", "af", "ag", "aj", "al", "am", "an", "a
 	"za", "zi"}
 
 func main() {
-	// GetFlagsSkele("serial", len(flags))
+	GetFlagsSkele("serial", len(flags))
 	GetFlagsSkele("goroutine", len(flags))
 }
