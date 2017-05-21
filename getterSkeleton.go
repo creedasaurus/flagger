@@ -53,6 +53,7 @@ func GetFlagsSkele(runType string, count int) {
 // GetAndSaveFlag - This is the single function that will make the
 // Get() call and save it
 func GetAndSaveFlag(flg string) (size int64) {
+	defer fmt.Println("Cleaning up", flg)
 	flgstrg := flg + "-lgflag.gif"
 	outfile, err := os.Create(flgstrg)
 	if err != nil {

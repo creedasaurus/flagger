@@ -18,7 +18,9 @@ func RunGoLike(flagsCut []string) {
 			GetAndSaveFlag(flgs)
 		}(flg)
 	}
+	fmt.Println("before wait()")
 	wg.Wait()
+	fmt.Println("after wait()")
 }
 
 // RunSerially - gets all the flags one-by-one
