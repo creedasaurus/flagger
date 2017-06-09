@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"sync"
+)
+
 // RunGoLike - runs the gets with goroutines
 // TODO: figure out if returning values from goroutines is ok
 func RunGoLike(flagsCut []string, ch chan int64) {
@@ -13,6 +18,7 @@ func RunGoLike(flagsCut []string, ch chan int64) {
 			GetAndSaveFlag(flgs)
 		}(flg)
 	}
+
 
 	// fmt.Println("before wait()")
 	// wg.Wait()
