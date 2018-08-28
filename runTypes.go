@@ -1,27 +1,23 @@
 package main
 
-import (
-	"fmt"
-	"sync"
-)
+import "sync"
 
 // RunGoLike - runs the gets with goroutines
 // TODO: figure out if returning values from goroutines is ok
-func RunGoLike(flagsCut []string, ch chan int64) {
+func RunGoLike(flagsCut []string) {
 	// var bts uint64
-	// var wg sync.WaitGroup
+	var wg sync.WaitGroup
 
 	for _, flg := range flagsCut {
-		// wg.Add(1)
+		wg.Add(1)
 		go func(flgs string) {
-			// defer wg.Done()
+			defer wg.Done()
 			GetAndSaveFlag(flgs)
 		}(flg)
 	}
 
-
 	// fmt.Println("before wait()")
-	// wg.Wait()
+	wg.Wait()
 	// fmt.Println("after wait()")
 }
 

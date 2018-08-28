@@ -8,8 +8,8 @@ import (
 	"time"
 )
 
-// GetFlagsSkele - A skeleton structure for running each of the different run styles
-func GetFlagsSkele(runType string, count int) {
+// getFlagsUsingRunType - A skeleton structure for running each of the different run styles
+func getFlagsUsingRunType(runType string, count int) {
 	var byteCount int64
 
 	if count < 1 && count > len(flags) {
@@ -51,7 +51,6 @@ func GetFlagsSkele(runType string, count int) {
 }
 
 // GetAndSaveFlag - This is the single function that will make the
-// Get() call and save it
 func GetAndSaveFlag(flg string) (size int64) {
 	defer fmt.Println("Cleaning up", flg)
 	flgstrg := flg + "-lgflag.gif"

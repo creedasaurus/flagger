@@ -1,4 +1,3 @@
-// Some golang to download a bunch of flags, either serially, or using goroutines. For practice.
 package main
 
 const urlstrn string = "https://www.cia.gov/library/publications/resources/the-world-factbook/graphics/flags/large/"
@@ -30,6 +29,6 @@ var flags = [...]string{"aa", "ac", "ae", "af", "ag", "aj", "al", "am", "an", "a
 	"za", "zi"}
 
 func main() {
-	GetFlagsSkele("serial", len(flags))
-	GetFlagsSkele("goroutine", len(flags))
+	getFlagsUsingRunType("serial", len(flags))
+	getFlagsUsingRunType("goroutine", len(flags))
 }
