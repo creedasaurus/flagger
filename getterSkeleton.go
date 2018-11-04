@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"net/http"
@@ -50,9 +51,55 @@ func getFlagsUsingRunType(runType string, count int) {
 	}
 }
 
+type Flag struct {
+	Data     []byte
+	Filename string
+}
+
+func GetFlag(flg string) (*Flag, error) {
+	flag := &Flag{Filename: fmt.Sprintf("%s-lgflag.gif", flg)}
+	// fmt.Println("GETting flag:", flag.Filename)
+	response, err := http.Get(urlstrn + flag.Filename)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Non 200 response")
+	}
+
+	var data bytes.Buffer
+	_, err = io.Copy(&data, response.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	flag.Data = data.Bytes()
+	return flag, nil
+}
+
+func SaveFlag(flag *Flag) error {
+	// fmt.Println("Saving Flag:", flag.Filename)
+	outFile, err := os.Create(flag.Filename)
+	if err != nil {
+		return err
+	}
+	defer outFile.Close()
+
+	_, err = outFile.Write(flag.Data)
+	if err != nil {
+		return err
+	}
+
+	outFile.Sync()
+	// fmt.Println("saved!")
+	return nil
+}
+
 // GetAndSaveFlag - This is the single function that will make the
 func GetAndSaveFlag(flg string) (size int64) {
-	defer fmt.Println("Cleaning up", flg)
+	// defer fmt.Println("Cleaning up", flg)
 	flgstrg := flg + "-lgflag.gif"
 	outfile, err := os.Create(flgstrg)
 	if err != nil {

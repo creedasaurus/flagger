@@ -1,24 +1,35 @@
 package main
 
-import "sync"
+import (
+	"fmt"
+)
 
 // RunGoLike - runs the gets with goroutines
 // TODO: figure out if returning values from goroutines is ok
 func RunGoLike(flagsCut []string) {
-	// var bts uint64
-	var wg sync.WaitGroup
-
-	for _, flg := range flagsCut {
-		wg.Add(1)
-		go func(flgs string) {
-			defer wg.Done()
-			GetAndSaveFlag(flgs)
-		}(flg)
+	receivedFlags := make(chan *Flag, len(flagsCut))
+	// errChan := make(chan error, len(flagsCut))
+	for _, flag := range flagsCut {
+		go func(flg string) {
+			flagData, err := GetFlag(flg)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			receivedFlags <- flagData
+		}(flag)
 	}
 
-	// fmt.Println("before wait()")
-	wg.Wait()
-	// fmt.Println("after wait()")
+	for i := 0; i < len(flagsCut); i++ {
+		flagType := <-receivedFlags
+		go func(flg *Flag) {
+			err := SaveFlag(flg)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+		}(flagType)
+	}
 }
 
 // RunSerially - gets all the flags one-by-one
