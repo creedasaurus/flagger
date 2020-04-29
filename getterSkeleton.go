@@ -31,15 +31,15 @@ func getFlagsUsingRunType(runType string, count int) {
 	case "serial":
 		start := time.Now()
 		byteCount = RunSerially(flags[:count])
-		fmt.Println(byteCount)
-		fmt.Println()
+		fmt.Println(byteCount, "bytes")
 		elapsed := time.Since(start)
 		fmt.Println("Serial took: ", elapsed)
 		break
 
 	case "goroutine":
 		start := time.Now()
-		RunGoLike(flags[:count])
+		byteCount := RunGoLike(flags[:count])
+		fmt.Println(byteCount, "bytes")
 		elapsed := time.Since(start)
 		fmt.Println("Goroutines took: ", elapsed)
 		break
@@ -52,7 +52,6 @@ func getFlagsUsingRunType(runType string, count int) {
 
 // GetAndSaveFlag - This is the single function that will make the
 func GetAndSaveFlag(flg string) (size int64) {
-	defer fmt.Println("Cleaning up", flg)
 	flgstrg := flg + "-lgflag.gif"
 	outfile, err := os.Create(flgstrg)
 	if err != nil {
